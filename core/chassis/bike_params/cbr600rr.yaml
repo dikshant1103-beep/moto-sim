@@ -1,0 +1,91 @@
+# bike_params/cbr600rr.yaml — Honda CBR600RR (2007 spec)
+#
+# Source: Sharp 1994 motorcycle dynamics parameters (used as baseline),
+#         cross-checked with Cossalter "Motorcycle Dynamics" 2nd ed. Table A.1,
+#         and public CBR600RR service manual data.
+#
+# Coordinate frame: SAE J670 / PyChrono convention
+#   X: forward, Y: left, Z: up (right-hand)
+#   All angles in radians unless noted.
+#   All lengths in metres, masses in kg, inertias in kg·m².
+#
+# Decision: rake and trail values from Cossalter Table A.1 (measured values,
+#           slightly different from Honda published figures which are static).
+#   See docs/decisions/005-cbr600rr-params.md
+
+name: Honda CBR600RR 2007
+
+# ── Geometry ─────────────────────────────────────────────────────────────────
+wheelbase:            1.370   # [m]  front to rear axle
+rake:                 0.4189  # [rad] = 24.0°  steering head angle from vertical
+trail:                0.097   # [m]  (mechanical trail at contact patch)
+front_wheel_radius:   0.299   # [m]  120/70-17 tyre
+rear_wheel_radius:    0.318   # [m]  180/55-17 tyre
+
+# ── Masses ───────────────────────────────────────────────────────────────────
+total_mass:           189.0   # [kg]  rider (75 kg) + bike (114 kg dry)
+front_wheel_mass:     4.50    # [kg]
+rear_wheel_mass:      7.00    # [kg]
+# Frame + engine + tank + rider (lumped at cg)
+main_frame_mass:      165.0   # [kg]  total − 2 wheels − swingarm
+swingarm_mass:        5.00    # [kg]
+front_fork_mass:      7.50    # [kg]  fork tubes + steering head
+
+# ── Centre of gravity (main frame body, from rear axle) ──────────────────────
+cg_x:                 0.630   # [m]  rearward positive (from rear axle)
+cg_height:            0.580   # [m]  above ground
+
+# ── Inertia tensors (main frame, about CG, kg·m²) ────────────────────────────
+# Principal axes assumed aligned with body frame
+frame_Ixx:            9.5     # roll  — about X
+frame_Iyy:           58.0     # pitch — about Y
+frame_Izz:           50.0     # yaw   — about Z
+frame_Ixz:           -2.5     # coupling (non-zero for slanted engine)
+
+# Wheel spin inertias
+front_wheel_Iyy:      0.38    # [kg·m²]  about spin axis
+rear_wheel_Iyy:       0.58    # [kg·m²]
+
+# Swingarm (about pivot)
+swingarm_Iyy:         0.25
+
+# ── Rider ────────────────────────────────────────────────────────────────────
+# Rider is already included in total_mass (189 kg = 75 kg rider + 114 kg bike).
+# These fields are used to derive the physical rider lean restoring torque:
+#   τ_roll = -rider_mass · g · rider_lean_arm · sin(roll)
+#   C_roll  = 2 · 0.30 · sqrt(frame_Ixx · K_roll)   (ζ = 0.30)
+rider_mass:           75.0    # [kg]  rider body (Cossalter Table A.1 reference rider)
+rider_lean_arm:       0.55    # [m]   effective lateral CoM shift per rad of roll
+                              #       (torso + hip shift; realistic range 0.35–0.65 m/rad)
+
+# ── Suspension ───────────────────────────────────────────────────────────────
+# Front: telescopic fork
+front_spring_k:    18500.0    # [N/m]   18.5 kN/m
+front_damper_c:     900.0     # [N·s/m]
+front_ride_height:   0.115    # [m]     unloaded static sag
+front_travel:        0.120    # [m]     maximum stroke
+
+# Rear: linkage-approximated as direct spring-damper on swingarm
+rear_spring_k:     42000.0    # [N/m]
+rear_damper_c:     1800.0     # [N·s/m]
+rear_ride_height:   0.100     # [m]
+rear_travel:        0.105     # [m]
+rear_spring_preload: 0.005    # [m]     spring pre-compression at rest
+
+# Swingarm geometry
+swingarm_length:     0.540    # [m]  pivot to rear axle
+swingarm_pivot_x:    0.420    # [m]  from rear axle (forward)
+swingarm_pivot_z:    0.330    # [m]  above ground
+
+# ── Steering ─────────────────────────────────────────────────────────────────
+steering_friction:    0.50    # [N·m·s/rad]  viscous friction on steering axis
+# Note: no steering damper modelled in v1. Add ChLinkTSDA on steering axis (M2+).
+
+# ── Powertrain / braking (M1 simplified) ────────────────────────────────────
+engine_torque_max:    80.0    # [N·m] rear-wheel drive torque
+brake_torque_max:    250.0    # [N·m] combined brake capacity tuned so full braking stops the bike cleanly
+
+# ── Aerodynamics (simplified, Milestone 4+) ──────────────────────────────────
+Cd_A:                 0.35    # [m²]  drag area (Cd × frontal area)
+Cl_A:                 0.10    # [m²]  lift area (negative = downforce)
+aero_ref_height:      0.60    # [m]  aerodynamic centre height above ground

@@ -1,0 +1,52 @@
+# pacejka_coeffs/hard.yaml — Hard-compound motorcycle sport tyre
+#
+# Long-stint compound: lower peak grip, wider operating temperature window,
+# much slower wear.  Suitable for long-distance validation scenarios and
+# the Milestone 3 endurance scenario.
+
+compound: hard
+
+# ── Friction and cornering ──────────────────────────────────────────────────
+mu:         0.82    # peak lateral friction coefficient [–]
+k_alpha:    11.0    # lower stiffness → later peak, more progressive
+k_gamma:    0.78    # lower camber sensitivity
+
+# ── Pacejka MF shape ────────────────────────────────────────────────────────
+C_pac:      1.75    # slightly flatter peak
+E_pac:      0.00
+
+# ── Longitudinal slip ───────────────────────────────────────────────────────
+Kx:         11.0
+
+# ── Pneumatic trail and aligning torque ─────────────────────────────────────
+tp0:        0.028   # less trail → slightly lighter steering feel
+Bt:         9.00
+Ct:         1.50
+K_gamma_Mz: 0.018
+
+# ── Combined-slip weighting (Pacejka 2012 §4.3.2) ──────────────────────────
+Bxa:        10.0
+Cxa:        1.00
+Byk:        8.00
+Cyk:        1.00
+
+# ── Relaxation ──────────────────────────────────────────────────────────────
+sigma:      0.32    # slightly longer — harder carcass is less compliant
+
+# ── Thermal profile (Milestone 5) ───────────────────────────────────────────
+T_optimal:    95.0    # higher optimal temp → needs more energy to activate
+T_width:      35.0    # wider window → more robust over temperature swings
+T_cold_grip:  0.72    # better cold grip (thicker rubber, more contact area)
+tau_tread:    40.0    # heats and cools more slowly (thicker hard compound)
+tau_carcass: 150.0
+heat_scale:  3.0e-3   # heats more slowly per unit slip power
+T_ambient:    20.0
+
+# ── Wear model (Milestone 5) ────────────────────────────────────────────────
+k_wear:       1.0e-8  # much more durable than medium/soft
+wear_exp:     1.50
+grip_wear_max: 0.25   # less grip loss when worn (harder compound more stable)
+
+# ── Pressure (Milestone 5) ──────────────────────────────────────────────────
+p_cold:      235.0
+p_optimal:   245.0

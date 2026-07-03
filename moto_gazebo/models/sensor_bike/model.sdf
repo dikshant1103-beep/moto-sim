@@ -1,0 +1,65 @@
+<?xml version="1.0" ?>
+<!-- sensor_bike — kinematic sensor carrier for the moto_sim ROS 2 layer (A3).
+
+  This model carries an onboard CAMERA and a 2D LIDAR. It is NOT physically
+  simulated — PyChrono owns the bike's physics/balancing. The pose_driver node
+  teleports this model to the Chrono pose every frame (set_entity_state), so the
+  sensors render from the real ride trajectory and publish ROS 2 topics for SLAM.
+
+  Frame: x forward, y left, z up (REP-103, matches Chrono + the bridge). -->
+<sdf version="1.6">
+  <model name="sensor_bike">
+    <static>false</static>
+
+    <link name="base_link">
+      <gravity>false</gravity>
+      <inertial>
+        <mass>1.0</mass>
+        <inertia><ixx>0.1</ixx><iyy>0.1</iyy><izz>0.1</izz>
+          <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+      </inertial>
+
+      <!-- minimal visual so you can see the rider position in the world -->
+      <visual name="body">
+        <pose>0 0 0.5 0 0 0</pose>
+        <geometry><box><size>1.4 0.3 1.0</size></box></geometry>
+        <material><ambient>0.8 0.15 0.15 1</ambient><diffuse>0.8 0.15 0.15 1</diffuse></material>
+      </visual>
+
+      <!-- ONBOARD CAMERA — rider eye-line, looking forward (+x) -->
+      <sensor name="onboard_camera" type="camera">
+        <pose>0.2 0 1.15 0 0.05 0</pose>
+        <update_rate>30</update_rate>
+        <camera name="onboard">
+          <horizontal_fov>1.5</horizontal_fov>
+          <image><width>640</width><height>480</height><format>R8G8B8</format></image>
+          <clip><near>0.1</near><far>200</far></clip>
+        </camera>
+        <plugin name="onboard_cam" filename="libgazebo_ros_camera.so">
+          <ros><namespace>/moto</namespace>
+            <remapping>image_raw:=camera/image_raw</remapping>
+            <remapping>camera_info:=camera/camera_info</remapping></ros>
+          <frame_name>camera_link</frame_name>
+        </plugin>
+      </sensor>
+
+      <!-- 2D LIDAR — horizontal scan for SLAM -->
+      <sensor name="lidar" type="ray">
+        <pose>0.1 0 1.0 0 0 0</pose>
+        <update_rate>20</update_rate>
+        <ray>
+          <scan><horizontal>
+            <samples>720</samples><resolution>1</resolution>
+            <min_angle>-3.14159</min_angle><max_angle>3.14159</max_angle>
+          </horizontal></scan>
+          <range><min>0.2</min><max>60.0</max><resolution>0.01</resolution></range>
+        </ray>
+        <plugin name="lidar_plugin" filename="libgazebo_ros_ray_sensor.so">
+          <ros><namespace>/moto</namespace><remapping>~/out:=scan</remapping></ros>
+          <output_type>sensor_msgs/LaserScan</output_type>
+          <frame_name>lidar_link</frame_name>
+        </plugin>
+      </sensor>
+    </link>
+  </model>
+</sdf>

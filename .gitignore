@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node / Electron
+node_modules/
+dist/
+dist-electron/
+build/
+*.AppImage
+
+# Generated documents
+*.docx
+
+# Large regenerable training data (keep small .onnx/.pt inference models)
+*.npz
+
+# Logs / OS / editor
+*.log
+.DS_Store
+.vscode/
+.idea/
+dataset/tire_synthetic_*.csv

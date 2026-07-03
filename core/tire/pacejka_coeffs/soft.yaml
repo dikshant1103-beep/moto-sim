@@ -1,0 +1,58 @@
+# pacejka_coeffs/soft.yaml — Soft-compound motorcycle sport tyre
+#
+# Represents a qualifying/sprint compound: high peak grip, fast heat-up,
+# shorter lifespan.  Based on Pacejka 2012 motorcycle tyre ranges with
+# published MotoGP soft-compound characteristics.
+#
+# Reference: Pacejka "Tyre and Vehicle Dynamics" 3rd ed., Chapter 8 (MC tyres)
+#            Cossalter "Motorcycle Dynamics" 2nd ed., Appendix A
+
+compound: soft
+
+# ── Friction and cornering ──────────────────────────────────────────────────
+mu:         1.00    # peak lateral friction coefficient        [–]
+k_alpha:    13.0    # normalised cornering stiffness [1/rad]   BCD = k_alpha·Fz
+k_gamma:    1.05    # normalised camber stiffness [1/rad]      higher on soft
+
+# ── Pacejka MF shape ────────────────────────────────────────────────────────
+C_pac:      1.80    # shape factor [–]   C=1.8 → peak ≈9°, 15% drop at 20°
+E_pac:      0.00    # curvature factor; 0 = symmetric peak
+
+# ── Longitudinal slip ───────────────────────────────────────────────────────
+Kx:         13.0    # normalised longitudinal slip stiffness [–]
+
+# ── Pneumatic trail and aligning torque ─────────────────────────────────────
+tp0:        0.035   # maximum pneumatic trail [m]    (soft → slightly more trail)
+Bt:         10.0    # trail stiffness factor [1/rad]
+Ct:         1.50    # trail shape factor [–]   reversal at tan(60°)/10 ≈ 9.9°
+K_gamma_Mz: 0.022   # camber twisting torque coefficient [m]
+
+# ── Combined-slip weighting (Pacejka 2012 §4.3.2) ──────────────────────────
+# Gxα = cos(Cxa · atan(Bxa · α))   — Fx reduction from lateral slip
+# Gyκ = cos(Cyk · atan(Byk · κ))   — Fy reduction from longitudinal slip
+# Keep Cxa, Cyk ≤ 1.0 so G-factors remain non-negative for all inputs.
+Bxa:        10.0    # Gxα stiffness [1/rad]
+Cxa:        1.00    # Gxα shape [–]
+Byk:        8.00    # Gyκ stiffness [–]
+Cyk:        1.00    # Gyκ shape [–]
+
+# ── Relaxation ──────────────────────────────────────────────────────────────
+sigma:      0.28    # relaxation length [m]   soft = shorter (stiffer carcass)
+
+# ── Thermal profile (Milestone 5) ───────────────────────────────────────────
+T_optimal:    80.0    # optimal operating temperature [°C]
+T_width:      22.0    # Gaussian half-width [°C]   narrower → more temp-sensitive
+T_cold_grip:  0.60    # grip fraction at cold start (20°C)
+tau_tread:    25.0    # faster heat-up (thinner soft compound)
+tau_carcass: 100.0
+heat_scale:  5.0e-3   # heats faster per unit slip power
+T_ambient:    20.0
+
+# ── Wear model (Milestone 5) ────────────────────────────────────────────────
+k_wear:       2.5e-8  # wears faster than medium
+wear_exp:     1.50
+grip_wear_max: 0.35   # slightly more grip loss when worn
+
+# ── Pressure (Milestone 5) ──────────────────────────────────────────────────
+p_cold:      220.0
+p_optimal:   230.0

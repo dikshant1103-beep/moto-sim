@@ -1,0 +1,54 @@
+# pacejka_coeffs/medium.yaml — Medium-compound motorcycle sport tyre
+#
+# Default compound for product demos and most validation scenarios.
+# Balanced performance: moderate peak grip, good operating window, race-day
+# compound used for most MotoGP dry races.
+#
+# Reference: Pacejka 2012, Cossalter 2nd ed., Sharp 1994 model parameters.
+
+compound: medium
+
+# ── Friction and cornering ──────────────────────────────────────────────────
+mu:         0.90    # peak lateral friction coefficient [–]
+k_alpha:    12.0    # normalised cornering stiffness [1/rad]
+k_gamma:    0.90    # normalised camber stiffness [1/rad]
+
+# ── Pacejka MF shape ────────────────────────────────────────────────────────
+C_pac:      1.80
+E_pac:      0.00
+
+# ── Longitudinal slip ───────────────────────────────────────────────────────
+Kx:         12.0
+
+# ── Pneumatic trail and aligning torque ─────────────────────────────────────
+tp0:        0.030
+Bt:         10.0
+Ct:         1.50
+K_gamma_Mz: 0.020
+
+# ── Combined-slip weighting (Pacejka 2012 §4.3.2) ──────────────────────────
+Bxa:        10.0
+Cxa:        1.00
+Byk:        8.00
+Cyk:        1.00
+
+# ── Relaxation ──────────────────────────────────────────────────────────────
+sigma:      0.30    # relaxation length [m]   motorcycle nominal
+
+# ── Thermal profile (Milestone 5) ───────────────────────────────────────────
+T_optimal:    85.0    # optimal tread temperature [°C]
+T_width:      25.0    # Gaussian half-width [°C]
+T_cold_grip:  0.65    # grip fraction at cold start (20°C)
+tau_tread:    30.0    # tread thermal time constant [s]
+tau_carcass: 120.0    # carcass coupling time constant [s]
+heat_scale:  4.0e-3   # tread temp rise per Watt [(°C·s)/J]
+T_ambient:    20.0    # ambient temperature [°C]
+
+# ── Wear model (Milestone 5) ────────────────────────────────────────────────
+k_wear:       1.8e-8  # wear rate coefficient
+wear_exp:     1.50    # power-law exponent
+grip_wear_max: 0.30   # max grip loss at full wear (W=1)
+
+# ── Pressure (Milestone 5) ──────────────────────────────────────────────────
+p_cold:      230.0    # cold inflation pressure [kPa]
+p_optimal:   240.0    # optimal pressure [kPa]
