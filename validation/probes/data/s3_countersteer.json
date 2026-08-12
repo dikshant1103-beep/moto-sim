@@ -1,0 +1,99 @@
+{
+  "config": {
+    "v": 12.0,
+    "pulse_Nm": 25.0,
+    "pulse_s": 0.3,
+    "total_s": 4.0,
+    "dt": 0.001
+  },
+  "cases": [
+    {
+      "kinematics": "legacy",
+      "steer_kin_sign": 1.0,
+      "K_Mz_missing": 2000.0,
+      "steer_torque_Nm": 25.0,
+      "steer_initial_deg": 1.0234999627457635,
+      "roll_at_pulse_end_deg": -0.3474054658805522,
+      "roll_final_deg": -4.6847360860598395e-06,
+      "yaw_rate_final_dps": 1.7523637685622844e-05,
+      "verdict": "no clear response"
+    },
+    {
+      "kinematics": "legacy",
+      "steer_kin_sign": 1.0,
+      "K_Mz_missing": 2000.0,
+      "steer_torque_Nm": -25.0,
+      "steer_initial_deg": -1.0235240079873913,
+      "roll_at_pulse_end_deg": 0.3473937343396327,
+      "roll_final_deg": -1.810348171721811e-05,
+      "yaw_rate_final_dps": -2.8624911180907302e-05,
+      "verdict": "no clear response"
+    },
+    {
+      "kinematics": "legacy",
+      "steer_kin_sign": 1.0,
+      "K_Mz_missing": 0.0,
+      "steer_torque_Nm": 25.0,
+      "steer_initial_deg": 3.2965630047916408,
+      "roll_at_pulse_end_deg": -1.939338893309011,
+      "roll_final_deg": NaN,
+      "yaw_rate_final_dps": NaN,
+      "verdict": "direct steer (wrong at speed)"
+    },
+    {
+      "kinematics": "legacy",
+      "steer_kin_sign": 1.0,
+      "K_Mz_missing": 0.0,
+      "steer_torque_Nm": -25.0,
+      "steer_initial_deg": -21.796805720042364,
+      "roll_at_pulse_end_deg": 1.319622139559007,
+      "roll_final_deg": NaN,
+      "yaw_rate_final_dps": NaN,
+      "verdict": "direct steer (wrong at speed)"
+    },
+    {
+      "kinematics": "corrected",
+      "steer_kin_sign": -1.0,
+      "K_Mz_missing": 2000.0,
+      "steer_torque_Nm": 25.0,
+      "steer_initial_deg": 0.4096814566929191,
+      "roll_at_pulse_end_deg": 0.14774865757060268,
+      "roll_final_deg": 3.3661741095309457e-06,
+      "yaw_rate_final_dps": 2.5613218594833387e-05,
+      "verdict": "no clear response"
+    },
+    {
+      "kinematics": "corrected",
+      "steer_kin_sign": -1.0,
+      "K_Mz_missing": 2000.0,
+      "steer_torque_Nm": -25.0,
+      "steer_initial_deg": -0.40969766334054286,
+      "roll_at_pulse_end_deg": -0.14775244650033686,
+      "roll_final_deg": -8.630563333424364e-06,
+      "yaw_rate_final_dps": -3.7794612287750935e-05,
+      "verdict": "no clear response"
+    },
+    {
+      "kinematics": "corrected",
+      "steer_kin_sign": -1.0,
+      "K_Mz_missing": 0.0,
+      "steer_torque_Nm": 25.0,
+      "steer_initial_deg": 1.1504907743434398,
+      "roll_at_pulse_end_deg": 0.41417026850397315,
+      "roll_final_deg": -1.784112293648826e-06,
+      "yaw_rate_final_dps": 2.8618420859994196e-05,
+      "verdict": "no clear response"
+    },
+    {
+      "kinematics": "corrected",
+      "steer_kin_sign": -1.0,
+      "K_Mz_missing": 0.0,
+      "steer_torque_Nm": -25.0,
+      "steer_initial_deg": -1.150518023080546,
+      "roll_at_pulse_end_deg": -0.4141804435292576,
+      "roll_final_deg": -9.321412926532822e-06,
+      "yaw_rate_final_dps": 4.978805091943706e-06,
+      "verdict": "no clear response"
+    }
+  ]
+}
