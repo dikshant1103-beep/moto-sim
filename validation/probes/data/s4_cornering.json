@@ -1,0 +1,129 @@
+{
+  "config": {
+    "v": 10.0,
+    "hold_s": 4.0,
+    "dt": 0.001
+  },
+  "cases": [
+    {
+      "kinematics": "legacy",
+      "K_Mz_missing": 2000.0,
+      "K_yaw_damp": 2000.0,
+      "yaw_rate_dps": 10.216579947839032,
+      "yaw_rate_kinematic_dps": -31.790956790777578,
+      "turn_radius_m": 56.08117374464562,
+      "roll_deg": 1.2921849057672716,
+      "steer_true_deg": -4.756622845881809
+    },
+    {
+      "kinematics": "legacy",
+      "K_Mz_missing": 2000.0,
+      "K_yaw_damp": 200.0,
+      "yaw_rate_dps": 27.560896566597116,
+      "yaw_rate_kinematic_dps": -37.79523050060452,
+      "turn_radius_m": 20.78879378057784,
+      "roll_deg": 3.609680496846871,
+      "steer_true_deg": -5.649639316460851
+    },
+    {
+      "kinematics": "legacy",
+      "K_Mz_missing": 2000.0,
+      "K_yaw_damp": 0.0,
+      "yaw_rate_dps": 34.65049306160871,
+      "yaw_rate_kinematic_dps": -40.723592527214045,
+      "turn_radius_m": 16.535343208886008,
+      "roll_deg": 4.587222906354609,
+      "steer_true_deg": -6.084205021175694
+    },
+    {
+      "kinematics": "legacy",
+      "K_Mz_missing": 0.0,
+      "K_yaw_damp": 2000.0,
+      "yaw_rate_dps": NaN,
+      "yaw_rate_kinematic_dps": NaN,
+      "turn_radius_m": Infinity,
+      "roll_deg": NaN,
+      "steer_true_deg": NaN
+    },
+    {
+      "kinematics": "legacy",
+      "K_Mz_missing": 0.0,
+      "K_yaw_damp": 200.0,
+      "yaw_rate_dps": NaN,
+      "yaw_rate_kinematic_dps": NaN,
+      "turn_radius_m": Infinity,
+      "roll_deg": NaN,
+      "steer_true_deg": NaN
+    },
+    {
+      "kinematics": "legacy",
+      "K_Mz_missing": 0.0,
+      "K_yaw_damp": 0.0,
+      "yaw_rate_dps": NaN,
+      "yaw_rate_kinematic_dps": NaN,
+      "turn_radius_m": Infinity,
+      "roll_deg": NaN,
+      "steer_true_deg": NaN
+    },
+    {
+      "kinematics": "corrected",
+      "K_Mz_missing": 2000.0,
+      "K_yaw_damp": 2000.0,
+      "yaw_rate_dps": -4.7631991161983365,
+      "yaw_rate_kinematic_dps": -13.644025034939354,
+      "turn_radius_m": -120.28844084689858,
+      "roll_deg": -0.6344558822195484,
+      "steer_true_deg": -2.045278463810649
+    },
+    {
+      "kinematics": "corrected",
+      "K_Mz_missing": 2000.0,
+      "K_yaw_damp": 200.0,
+      "yaw_rate_dps": -11.143496399901089,
+      "yaw_rate_kinematic_dps": -13.10483777992354,
+      "turn_radius_m": -51.41633959121743,
+      "roll_deg": -1.4622549631426223,
+      "steer_true_deg": -1.9645173817747785
+    },
+    {
+      "kinematics": "corrected",
+      "K_Mz_missing": 2000.0,
+      "K_yaw_damp": 0.0,
+      "yaw_rate_dps": -12.91837482494443,
+      "yaw_rate_kinematic_dps": -12.854985894429198,
+      "turn_radius_m": -44.352157519418306,
+      "roll_deg": -1.6921792641318847,
+      "steer_true_deg": -1.9270911505424593
+    },
+    {
+      "kinematics": "corrected",
+      "K_Mz_missing": 0.0,
+      "K_yaw_damp": 2000.0,
+      "yaw_rate_dps": -1.1281650443684594,
+      "yaw_rate_kinematic_dps": -3.2122062080515588,
+      "turn_radius_m": -507.8669987081206,
+      "roll_deg": -0.14396995764578416,
+      "steer_true_deg": -0.4817121999628318
+    },
+    {
+      "kinematics": "corrected",
+      "K_Mz_missing": 0.0,
+      "K_yaw_damp": 200.0,
+      "yaw_rate_dps": -2.361801332875953,
+      "yaw_rate_kinematic_dps": -2.850405769893388,
+      "turn_radius_m": -242.59356075184175,
+      "roll_deg": -0.3004141476338072,
+      "steer_true_deg": -0.42745764830994026
+    },
+    {
+      "kinematics": "corrected",
+      "K_Mz_missing": 0.0,
+      "K_yaw_damp": 0.0,
+      "yaw_rate_dps": -2.6886424225414993,
+      "yaw_rate_kinematic_dps": -2.7544047731744783,
+      "turn_radius_m": -213.10301077122114,
+      "roll_deg": -0.3418937478625556,
+      "steer_true_deg": -0.4130614826523927
+    }
+  ]
+}
