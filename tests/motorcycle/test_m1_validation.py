@@ -24,6 +24,7 @@ import sys
 from pathlib import Path
 
 import pytest
+import pychrono as chrono
 
 # ── Path setup ────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parent.parent.parent
@@ -174,23 +175,42 @@ def test_g5_static_fz_split():
 
 # ── G6: Countersteering ───────────────────────────────────────────────────────
 
-def test_g6_countersteering():
+def test_g6_steer_yaw_sign_consistency():
     """
-    At 10 m/s, +2 N·m steer torque applied for 0.5 s then zeroed.
-    After the 0.5 s application window the bike should be turning LEFT
-    (yaw_rate < 0 in SAE/PyChrono Z-up convention where +Z is up and
-    left turn = negative yaw rate when X is forward and Y is left).
+    At 10 m/s, +2 N·m steer torque applied for 0.5 s: the chassis must yaw in
+    the SAME direction the front wheel physically points.
 
-    Physics: +torque steers wheel right → gyroscopic reaction rolls frame left
-    → left cornering (yaw_rate < 0).
+    History (2026-08-08): this gate was called `test_g6_countersteering` and
+    asserted yaw_rate < −0.05 °/s. Both halves of its stated reasoning were
+    wrong, and it passed only because the two errors cancelled:
 
-    Tolerance: yaw_rate < −0.05 °/s at t = 0.5 s.
+      1. It claimed "left turn = negative yaw rate when X is forward and Y is
+         left". In that right-handed frame a positive rotation about +Z carries
+         X toward Y, i.e. toward the LEFT — a left turn is a POSITIVE yaw rate.
+
+      2. It claimed "+torque steers wheel right". Measured geometrically from
+         the front-wheel body orientation, rider +2 N·m points the wheel LEFT
+         (+0.15°) — motorcycle.py negates rider torque into the motor.
+
+    The pre-fix model satisfied the assertion by pointing the wheel 23.9° LEFT
+    while yawing 15.7 °/s RIGHT, which is kinematically impossible for a rolling
+    wheel. That was the front-tyre steer-sign inversion, now fixed
+    (Motorcycle.steer_kin_sign; see validation/probes/STEER_SIGN_AUDIT.md).
+
+    NOTE ON SCOPE: this is not a countersteering test, and the model does not
+    reproduce the countersteer transient. Genuine countersteering needs roll to
+    feed back into the steer DOF, but WhippleStabilityModel.torques() centres
+    steer on a fixed target and its roll torque carries no steer-angle term, so
+    the lean→steer loop is open. What IS checkable, and what this gate now
+    checks, is that steer direction and yaw direction agree — the relation that
+    was inverted before. The steady-state magnitude is validated separately
+    against v·tan(δ)·cos(ε)/L in validation/probes/s4_cornering_capability.py
+    (agreement to 0.5 % with the artificial yaw damper removed).
     """
     STEER_NM   = 2.0     # N·m
     APPLY_TIME = 0.5     # s
     V0         = 10.0    # m/s
 
-    # Phase 1: apply steer torque
     moto = _make_moto(steer_torque=STEER_NM)
     moto.build()
     moto.reset(v0=V0)
@@ -202,10 +222,28 @@ def test_g6_countersteering():
 
     yaw_rate_deg = math.degrees(telem["chassis"]["yaw_rate"])
 
-    assert yaw_rate_deg < -0.05, (
-        f"Countersteering gate FAILED: yaw_rate={yaw_rate_deg:.4f}°/s "
-        f"(expected < −0.05°/s → LEFT turn).  "
-        f"Check steer-torque sign or gyroscopic coupling."
+    # True geometric steer angle, independent of the motor sign convention:
+    # front-wheel spin axis is its local +Y; heading = spin_axis × ẑ.
+    ax = moto.front_wheel.GetRot().Rotate(chrono.ChVector3d(0.0, 1.0, 0.0))
+    wheel_yaw = math.atan2(-ax.x, ax.y)
+    q = moto.main_frame.GetRot()
+    frame_yaw = math.atan2(2 * (q.e0 * q.e3 + q.e1 * q.e2),
+                           1 - 2 * (q.e2 * q.e2 + q.e3 * q.e3))
+    d = wheel_yaw - frame_yaw
+    steer_deg = math.degrees(math.atan2(math.sin(d), math.cos(d)))
+
+    assert abs(steer_deg) > 0.01, (
+        f"No steer response to {STEER_NM} N·m: steer={steer_deg:.4f}°"
+    )
+    assert abs(yaw_rate_deg) > 0.05, (
+        f"No yaw response: yaw_rate={yaw_rate_deg:.4f}°/s"
+    )
+    assert steer_deg * yaw_rate_deg > 0, (
+        f"Steer/yaw sign inconsistency: wheel points {steer_deg:+.4f}° "
+        f"({'LEFT' if steer_deg > 0 else 'RIGHT'}) but chassis yaws "
+        f"{yaw_rate_deg:+.4f}°/s ({'LEFT' if yaw_rate_deg > 0 else 'RIGHT'}). "
+        f"A rolling wheel must yaw the chassis the way it points. "
+        f"Check Motorcycle.steer_kin_sign."
     )
 
 
