@@ -246,19 +246,66 @@ class Motorcycle:
         # each step by WhippleStabilityModel.  See whipple_stability.py for derivation.
         self._whipple = WhippleStabilityModel(params)
 
-        # K_yaw_damp: yaw rate damping.  Physical trail self-alignment ≈ 160 N·m·s/rad
-        # at 6 m/s, but PyChrono's constraint chain does not route steer reaction
-        # to yaw on main_frame.  2000 suppresses the yaw instability eigenvalue
-        # while leaving enough response for countersteering (G6).  WhippleStabilityModel
-        # K_Mz_missing=2000 keeps steer angles small so yaw < 3°/s (G4) is maintained
-        # without raising K_yaw_damp (which couples back into roll and worsens G4 roll).
-        self.K_yaw_damp   = 2000.0  # N·m·s/rad  (constraint compensation, not changed in M4)
+        # K_yaw_damp: artificial yaw-rate damping, now DISABLED (0.0).
+        #
+        # This was 2000 N·m·s/rad against a frame yaw inertia of Izz = 50 kg·m²
+        # — a 40:1 override of the vehicle's own yaw dynamics.  Its stated
+        # justification was that "PyChrono's constraint chain does not route
+        # steer reaction to yaw on main_frame", and its value was tuned to leave
+        # "enough response for countersteering (G6)".  Both premises were wrong:
+        # the constraint chain routes the tyre aligning moment to the steer axis
+        # at |η| = 0.96, and the G6 gate was itself inverted (see decision 006).
+        # The yaw instability it suppressed was the front-tyre steer-sign
+        # inversion acting as positive feedback, fixed by steer_kin_sign below.
+        #
+        # Measured over 30 s of straight running with steer_kin_sign = -1.0 and
+        # no damping at all, peak yaw rate is 0.0011 °/s at 10 m/s and 0.0060 °/s
+        # at 20 m/s — thousandths of a degree per second.  The "~14 rad/s yaw
+        # instability eigenvalue" does not appear.  What the damper did cost was
+        # steady-turn fidelity against v·tan(δ)·cos(ε)/L:
+        #
+        #     K_yaw_damp    0     50     200     500    2000
+        #     turn error  -2.4%  -6.6%  -17.1%  -32.4%  -64.9%
+        #
+        # Evidence: validation/probes/s7_yaw_damping.py.
+        #
+        # CAVEAT if you ever re-enable it: the torque below is applied about
+        # WORLD Z, unlike K_pitch_damp which correctly uses the body Y axis.  On
+        # a leaned bike that also bleeds off part of the lean rate — almost
+        # certainly the "couples back into roll" effect the old comment noted.
+        # Fix the axis before using a non-zero value.
+        self.K_yaw_damp   = 0.0     # N·m·s/rad  (disabled; see decision 006)
         #
         # K_pitch_damp: TSDA provides ≈1200 N·m·s/rad pitch damping; 300 is a small
         # supplement to handle HHT integrator noise at low speed (<3 m/s).
         self.K_pitch_damp = 300.0   # N·m·s/rad  (supplemental)
         #
         self.C_steer      = 20.0    # N·m·s/rad  steer viscous friction
+        #
+        # steer_kin_sign: sign mapping between ChLinkMotorRotationTorque's
+        # GetMotorAngle() and the TRUE geometric steer angle of the front wheel,
+        # used when building the front-wheel heading for the tyre slip model
+        # (see _psi_front below).
+        #
+        # GetMotorAngle() returns the NEGATIVE of the geometric steer angle.
+        # Measured directly from body orientations: a +10 N·m steer torque held
+        # for 0.2 s gives GetMotorAngle() = +30.954° while the wheel physically
+        # points −28.317° (= −GetMotorAngle()·cos(rake)).  Feeding the raw motor
+        # angle into _psi_front therefore evaluated the front tyre at a slip
+        # angle of the wrong sign, so its lateral force AMPLIFIED steer
+        # perturbations instead of opposing them: peak steer excursion reached
+        # 55–74° after a 5° roll perturbation once the artificial centering
+        # spring (K_Mz_missing) was removed, and the vehicle yawed opposite to
+        # its own front wheel in a steady turn.
+        #
+        # With -1.0 the steady-turn yaw rate matches the single-track kinematic
+        # law v·tan(δ)·cos(ε)/L to 0.5 %, and peak steer stays under 1.5 % of a
+        # degree per degree of roll with no compensation term at all.
+        #
+        # Set to +1.0 only to reproduce pre-fix behaviour.
+        # Audit + reproduction scripts: validation/probes/ (see
+        # validation/probes/STEER_SIGN_AUDIT.md).
+        self.steer_kin_sign = -1.0
         # Smoothed steer-target the controller chases. Ramping it (instead of
         # stepping) avoids the torque snap that diverges the model, while keeping
         # full steer-centering authority so the steer holds the small intended angle
@@ -750,16 +797,15 @@ class Motorcycle:
             False,  # world frame
         )
 
-        # Yaw rate damping: the model lacks inherent yaw stability (no physical
-        # trail self-alignment in the constraint model). Numerical noise grows
-        # into a yaw instability with eigenvalue ~14 rad/s; need K > I_yaw*14≈800.
-        # K=3000 stabilises yaw while leaving enough response for G6 (~1.5°/s
-        # steady-state from lateral tire force >> the 0.05°/s gate threshold).
-        self.main_frame.AccumulateTorque(
-            self._acc_frame,
-            chrono.ChVector3d(0.0, 0.0, -self.K_yaw_damp * frame_omega.z),
-            False,  # world frame
-        )
+        # Artificial yaw-rate damping — disabled by default (K_yaw_damp = 0.0).
+        # See the K_yaw_damp comment in __init__ for why, and for the world-Z
+        # axis caveat that must be fixed before re-enabling it.
+        if self.K_yaw_damp:
+            self.main_frame.AccumulateTorque(
+                self._acc_frame,
+                chrono.ChVector3d(0.0, 0.0, -self.K_yaw_damp * frame_omega.z),
+                False,  # world frame
+            )
 
         # Pitch rate damping: the model has no pitch stabiliser; at low speed
         # (<3 m/s) gyroscopic effects vanish and HHT numerical noise accumulates
@@ -795,7 +841,7 @@ class Motorcycle:
 
         # ── 5. Tire kinematics ────────────────────────────────────────────────
         # Front wheel heading includes steer angle projected onto horizontal.
-        _psi_front = yaw + _steer_ang_raw * math.cos(p.rake)
+        _psi_front = yaw + self.steer_kin_sign * _steer_ang_raw * math.cos(p.rake)
 
         alpha_f, kappa_f, gamma_f, vx_f = self._tire_kinematics(
             pos_f, rot_f, vel_f, omega_f, _psi_front, p.front_wheel_radius, Fz_f,

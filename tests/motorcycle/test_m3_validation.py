@@ -195,7 +195,7 @@ def test_g7_m1_regression():
     m1.test_g3_step_finite()
     m1.test_g4_straight_line_stability()
     m1.test_g5_static_fz_split()
-    m1.test_g6_countersteering()
+    m1.test_g6_steer_yaw_sign_consistency()
     m1.test_g7_tire_force_magnitude()
     m1.test_g8_accumulator_cleared()
 

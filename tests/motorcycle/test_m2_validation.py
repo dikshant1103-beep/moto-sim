@@ -234,7 +234,7 @@ def test_g7_m1_regression():
     m1.test_g3_step_finite()
     m1.test_g4_straight_line_stability()
     m1.test_g5_static_fz_split()
-    m1.test_g6_countersteering()
+    m1.test_g6_steer_yaw_sign_consistency()
     m1.test_g7_tire_force_magnitude()
     m1.test_g8_accumulator_cleared()
 
@@ -251,34 +251,52 @@ def test_g8_capsize_low_speed():
     through PyChrono — the capsize real eigenvalue is positive and roll
     diverges monotonically (Sharp 1971, capsize mode).
 
-    Observed simulation capsize threshold: ~0.6 m/s.
-    (The analytical Whipple threshold ~1.87 m/s is higher because Pacejka
-    camber/lateral forces add real stability beyond the 1-DOF formula —
-    the same effect that shifts the weave frequency upward at low speeds.)
+    This gate tests the ORDERING that defines the capsize mode — roll grows at
+    very low speed and decays at higher speed — rather than an absolute growth
+    margin at one speed.
 
-    Test speed: 0.5 m/s — clearly below simulation threshold.
-    Window: 1.5 s — long enough to distinguish monotone growth from noise.
-    Gate: |roll| must grow by ≥ 0.8° from the initial 5° perturbation.
-    (Sweep shows +1.6° growth at v=0.5 m/s; 0.8° gives comfortable margin.)
+    Rationale (2026-08-08): the gate previously required ≥0.8° of growth at
+    v = 0.5 m/s, a margin tuned against the pre-fix model whose front-tyre slip
+    kinematics carried an inverted steer angle (see
+    validation/probes/STEER_SIGN_AUDIT.md). With the sign corrected and the
+    K_Mz_missing spring removed, the capsize mode is still present but weaker:
+    the sweep in validation/probes/s6_capsize_sweep.py gives +2.43° at 0.3 m/s
+    and +0.68° at 0.5 m/s, decaying from 0.7 m/s upward. An absolute margin at
+    a single speed therefore re-encodes the old tuning; the sign of the trend
+    is the physical claim (Sharp 1971, capsize mode) and is what we assert.
+
+    Low speed  : 0.3 m/s — roll must GROW.
+    High speed : 1.5 m/s — roll must DECAY.
+    Window     : 1.5 s — long enough to distinguish trend from noise.
     """
-    V_TEST      = 0.5    # m/s — below simulation capsize threshold (~0.6 m/s)
+    V_LOW       = 0.3    # m/s — below the simulation capsize threshold
+    V_HIGH      = 1.5    # m/s — comfortably above it
     PERTURB_DEG = 5.0    # deg
     T_WINDOW    = 1.5    # s
-    GROW_MIN    = 0.8    # deg
 
-    moto = _make_moto()
-    moto.build()
-    moto.reset(v0=V_TEST)
-    moto.main_frame.SetRot(chrono.QuatFromAngleX(math.radians(PERTURB_DEG)))
+    def _final_roll(v0):
+        moto = _make_moto()
+        moto.build()
+        moto.reset(v0=v0)
+        moto.main_frame.SetRot(chrono.QuatFromAngleX(math.radians(PERTURB_DEG)))
+        for k in range(round(T_WINDOW / DT)):
+            telem = moto.step(k * DT)
+        return abs(math.degrees(telem["chassis"]["roll"]))
 
-    n_steps = round(T_WINDOW / DT)
-    for k in range(n_steps):
-        telem = moto.step(k * DT)
+    roll_low = _final_roll(V_LOW)
+    roll_high = _final_roll(V_HIGH)
 
-    final_roll = abs(math.degrees(telem["chassis"]["roll"]))
-    assert final_roll > PERTURB_DEG + GROW_MIN, (
-        f"Capsize mode not observed at v={V_TEST} m/s: "
-        f"initial={PERTURB_DEG:.1f}°, final={final_roll:.2f}° "
-        f"(must exceed {PERTURB_DEG + GROW_MIN:.1f}°). "
-        f"Roll should diverge at this speed."
+    assert roll_low > PERTURB_DEG, (
+        f"Capsize mode not observed at v={V_LOW} m/s: "
+        f"initial={PERTURB_DEG:.1f}°, final={roll_low:.2f}° "
+        f"(must exceed {PERTURB_DEG:.1f}°). Roll should diverge at this speed."
+    )
+    assert roll_high < PERTURB_DEG, (
+        f"Capsize mode still unstable at v={V_HIGH} m/s: "
+        f"initial={PERTURB_DEG:.1f}°, final={roll_high:.2f}° "
+        f"(must fall below {PERTURB_DEG:.1f}°). Roll should decay at this speed."
+    )
+    assert roll_low > roll_high, (
+        f"Capsize ordering violated: roll at {V_LOW} m/s ({roll_low:.2f}°) "
+        f"must exceed roll at {V_HIGH} m/s ({roll_high:.2f}°)."
     )
