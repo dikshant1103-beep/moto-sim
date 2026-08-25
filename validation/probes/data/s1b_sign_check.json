@@ -1,0 +1,41 @@
+{
+  "steer_axis_world": [
+    -0.4108738085997233,
+    -6.475761564794885e-07,
+    0.9116922251540478
+  ],
+  "steer_axis_dot_worldZ": 0.9116922251540478,
+  "pos_motor_torque": {
+    "motor_angle_end_deg": 30.954281235052502,
+    "geometric_steer_end_deg": -28.316834534549812
+  },
+  "motor_angle_matches_geometry": false,
+  "pos_tire_Mz": {
+    "motor_angle_end_deg": -26.51783811616342,
+    "geometric_steer_end_deg": 24.231866367337005
+  },
+  "worldZ_Mz_turns_wheel_left": true,
+  "pacejka_sweep": [
+    {
+      "alpha_deg": 1.0,
+      "Fy": 185.7175126521511,
+      "Mz": -5.385427223325847
+    },
+    {
+      "alpha_deg": 2.0,
+      "Fy": 356.1940829002072,
+      "Mz": -9.3583480808094
+    },
+    {
+      "alpha_deg": 4.0,
+      "Fy": 613.3284384530641,
+      "Mz": -11.231642390527407
+    },
+    {
+      "alpha_deg": 6.0,
+      "Fy": 751.1750965437227,
+      "Mz": -7.899016303029878
+    }
+  ],
+  "Mz_opposes_alpha": true
+}
