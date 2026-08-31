@@ -1,0 +1,358 @@
+{
+  "long_s": 30.0,
+  "dt": 0.001,
+  "stability": [
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 0.0,
+      "v": 5.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 0.0,
+      "v": 10.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 0.0,
+      "v": 20.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 50.0,
+      "v": 5.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 50.0,
+      "v": 10.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 50.0,
+      "v": 20.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 200.0,
+      "v": 5.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 200.0,
+      "v": 10.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 200.0,
+      "v": 20.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 500.0,
+      "v": 5.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 500.0,
+      "v": 10.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 500.0,
+      "v": 20.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 2000.0,
+      "v": 5.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 2000.0,
+      "v": 10.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 2000.0,
+      "v": 20.0,
+      "diverged": true,
+      "growth_per_s": Infinity,
+      "max_abs_yawrate_dps": Infinity,
+      "final_abs_yawrate_dps": Infinity
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 0.0,
+      "v": 5.0,
+      "diverged": false,
+      "growth_per_s": -0.01915810471902379,
+      "max_abs_yawrate_dps": 0.0011218730150293526,
+      "final_abs_yawrate_dps": 0.00015528592742353151
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 0.0,
+      "v": 10.0,
+      "diverged": false,
+      "growth_per_s": 0.004445261612100275,
+      "max_abs_yawrate_dps": 0.0011251860523615715,
+      "final_abs_yawrate_dps": 0.00017589864499737267
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 0.0,
+      "v": 20.0,
+      "diverged": false,
+      "growth_per_s": 0.13748983336769796,
+      "max_abs_yawrate_dps": 0.0060080812573640036,
+      "final_abs_yawrate_dps": 0.0014577343332845194
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 50.0,
+      "v": 5.0,
+      "diverged": false,
+      "growth_per_s": -0.0022127723363002086,
+      "max_abs_yawrate_dps": 0.0010921235909636174,
+      "final_abs_yawrate_dps": 0.00018131356007230942
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 50.0,
+      "v": 10.0,
+      "diverged": false,
+      "growth_per_s": -0.011610228264487068,
+      "max_abs_yawrate_dps": 0.0011510514730548268,
+      "final_abs_yawrate_dps": 0.00017989805950475546
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 50.0,
+      "v": 20.0,
+      "diverged": false,
+      "growth_per_s": 0.13664830525517627,
+      "max_abs_yawrate_dps": 0.003615606397520752,
+      "final_abs_yawrate_dps": 0.001130687115092365
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 200.0,
+      "v": 5.0,
+      "diverged": false,
+      "growth_per_s": -0.002254736406180151,
+      "max_abs_yawrate_dps": 0.0009588047634798034,
+      "final_abs_yawrate_dps": 0.00011582020958139392
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 200.0,
+      "v": 10.0,
+      "diverged": false,
+      "growth_per_s": 0.009325811495544728,
+      "max_abs_yawrate_dps": 0.0009912779735737616,
+      "final_abs_yawrate_dps": 0.00014164132207529986
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 200.0,
+      "v": 20.0,
+      "diverged": false,
+      "growth_per_s": 0.13323395510506508,
+      "max_abs_yawrate_dps": 0.004237030171011692,
+      "final_abs_yawrate_dps": 0.0006635396508658859
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 500.0,
+      "v": 5.0,
+      "diverged": false,
+      "growth_per_s": 0.007849721382786088,
+      "max_abs_yawrate_dps": 0.0008753342606773353,
+      "final_abs_yawrate_dps": 0.00011184245032746255
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 500.0,
+      "v": 10.0,
+      "diverged": false,
+      "growth_per_s": -0.01356481332927503,
+      "max_abs_yawrate_dps": 0.0007936251393795567,
+      "final_abs_yawrate_dps": 9.455498893606806e-05
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 500.0,
+      "v": 20.0,
+      "diverged": false,
+      "growth_per_s": 0.12813762285865501,
+      "max_abs_yawrate_dps": 0.0042118888955706025,
+      "final_abs_yawrate_dps": 0.0005824302609412636
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 2000.0,
+      "v": 5.0,
+      "diverged": false,
+      "growth_per_s": 0.009699927166611482,
+      "max_abs_yawrate_dps": 0.0004913284199562409,
+      "final_abs_yawrate_dps": 7.118288305117503e-05
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 2000.0,
+      "v": 10.0,
+      "diverged": false,
+      "growth_per_s": 0.003528042105985442,
+      "max_abs_yawrate_dps": 0.0005859526090065044,
+      "final_abs_yawrate_dps": 8.078523655030233e-05
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 2000.0,
+      "v": 20.0,
+      "diverged": false,
+      "growth_per_s": 0.1622693503409021,
+      "max_abs_yawrate_dps": 0.003149644546083828,
+      "final_abs_yawrate_dps": 0.0002773141841528635
+    }
+  ],
+  "fidelity": [
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 0.0,
+      "yaw_sim_dps": NaN,
+      "yaw_kin_dps": NaN,
+      "steer_true_deg": NaN,
+      "error_pct": NaN
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 50.0,
+      "yaw_sim_dps": NaN,
+      "yaw_kin_dps": NaN,
+      "steer_true_deg": NaN,
+      "error_pct": NaN
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 200.0,
+      "yaw_sim_dps": NaN,
+      "yaw_kin_dps": NaN,
+      "steer_true_deg": NaN,
+      "error_pct": NaN
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 500.0,
+      "yaw_sim_dps": NaN,
+      "yaw_kin_dps": NaN,
+      "steer_true_deg": NaN,
+      "error_pct": NaN
+    },
+    {
+      "kinematics": "pre-fix",
+      "K_yaw_damp": 2000.0,
+      "yaw_sim_dps": NaN,
+      "yaw_kin_dps": NaN,
+      "steer_true_deg": NaN,
+      "error_pct": NaN
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 0.0,
+      "yaw_sim_dps": -2.6886424225414993,
+      "yaw_kin_dps": -2.7544047731744783,
+      "steer_true_deg": -0.4130614826523927,
+      "error_pct": -2.3875340063830657
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 50.0,
+      "yaw_sim_dps": -2.5986936919856345,
+      "yaw_kin_dps": -2.780842269595302,
+      "steer_true_deg": -0.4170260152929472,
+      "error_pct": -6.5501225870022255
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 200.0,
+      "yaw_sim_dps": -2.361801332875953,
+      "yaw_kin_dps": -2.850405769893388,
+      "steer_true_deg": -0.42745764830994026,
+      "error_pct": -17.141574795356608
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 500.0,
+      "yaw_sim_dps": -1.997708302991943,
+      "yaw_kin_dps": -2.9572215157362303,
+      "steer_true_deg": -0.44347551402934504,
+      "error_pct": -32.44644365119218
+    },
+    {
+      "kinematics": "fixed",
+      "K_yaw_damp": 2000.0,
+      "yaw_sim_dps": -1.1281650443684594,
+      "yaw_kin_dps": -3.2122062080515588,
+      "steer_true_deg": -0.4817121999628318,
+      "error_pct": -64.87881003589818
+    }
+  ]
+}
