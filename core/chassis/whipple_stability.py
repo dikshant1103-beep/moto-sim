@@ -3,15 +3,32 @@ core/chassis/whipple_stability.py — Sharp/Whipple linearized stability supplem
 
 Physical basis
 ──────────────
-PyChrono's constraint chain (wheel → front_axle revolute → fork_lower →
-prismatic + TSDA → fork_upper → steer motor → frame) does NOT propagate:
-  1. Lateral tire force → roll correction torque on main_frame (centripetal path)
-  2. Gyroscopic trail steer-centering → steer axis properly
+This class supplies a rider-balance model: a roll restoring torque (rider lean
+plus a quasi-static projection of the centripetal path) and a steer-centering
+torque.  PyChrono handles gravity, gyroscopic wheel precession, suspension and
+tyre contact forces on its own.
 
-This class computes the SUPPLEMENTAL torques that the physical model should
-provide but the constraint chain fails to route.  PyChrono handles gravity,
-gyroscopic wheel precession, suspension, and tire contact forces.  This class
-adds only the missing coupling terms.
+CORRECTION (2026-08-08).  Earlier versions of this docstring claimed PyChrono's
+constraint chain (wheel → front_axle revolute → fork_lower → prismatic + TSDA →
+fork_upper → steer motor → frame) fails to propagate the tyre aligning moment to
+the steer axis and the lateral tyre force to main-frame roll.  Both claims were
+tested by injecting a known wrench at the front contact patch and comparing the
+response against the same wrench applied directly to the target DOF:
+
+    aligning moment  → steer axis     : |η| = 0.96   (routed)
+    lateral force    → main-frame roll:  η  = 0.69   (routed; the deficit is
+                                                     genuine steer-DOF
+                                                     compliance via the trail)
+
+Neither path is missing.  The behaviour that motivated the "compensation" was a
+sign inversion in the front-tyre slip kinematics, now fixed — see
+Motorcycle.steer_kin_sign and validation/probes/STEER_SIGN_AUDIT.md.
+
+Note also that tau_roll below contains no steer-angle term: the centripetal
+coupling is folded onto the DIAGONAL of the roll equation by the quasi-static
+elimination δ_eq = (K_lean/K_ctr_phys)·φ.  This is a 1-DOF roll oscillator, not
+a 2-DOF Whipple weave mode, and should not be described as restoring Meijaard's
+off-diagonal K₂ term.
 
 Reference: Sharp (1971), Meijaard et al. (2007), Cossalter Ch.4.
 """
@@ -28,8 +45,16 @@ class WhippleStabilityModel:
     stateless — call torques() each step with the current state.
     """
 
-    def __init__(self, params) -> None:
+    def __init__(self, params, K_Mz_missing: float = 0.0,
+                 centripetal_factor: float = 2.5,
+                 C_roll: float = 200.0) -> None:
         p = self.p = params
+        # Exposed as attributes so the probes in validation/probes can sweep and
+        # ablate them without editing this file.  K_Mz_missing defaulted to
+        # 2000.0 before the steer-sign fix; see the note in torques() below.
+        self.K_Mz_missing = K_Mz_missing
+        self.centripetal_factor = centripetal_factor
+        self.C_roll = C_roll
         # Effective roll inertia used for C_roll scaling:
         #   Ixx (frame) + m_frame * h² (parallel-axis, frame mass at CG height)
         self._I_roll_eff = p.frame_Ixx + p.main_frame_mass * p.cg_height ** 2
@@ -76,27 +101,27 @@ class WhippleStabilityModel:
         # Used ONLY for the centripetal-coupling projection in tau_roll (below).
         K_ctr_phys = K_lean + K_gyro_steer   # ~105 N·m/rad at v=5
 
-        # ── Steer-axis self-alignment: decoupled from projection ──────────────
-        # The tire's pneumatic-trail aligning moment Mz (Pacejka) is applied to
-        # the wheel body but is NOT routed to the steer axis by PyChrono's wheel-
-        # bearing revolute (constraint chain failure — same root cause as the
-        # centripetal coupling omission).  We add the missing contribution as a
-        # fixed constraint-compensation term.
+        # ── Steer-axis self-alignment ─────────────────────────────────────────
+        # HISTORICAL NOTE.  This term used to carry a fixed 2000 N·m/rad
+        # "constraint compensation", on the belief that PyChrono's wheel-bearing
+        # revolute did not route the Pacejka aligning moment Mz to the steer
+        # axis.  That belief was wrong.  Measured transmission ratio for a
+        # moment injected at the front contact patch versus the same moment
+        # applied directly at the steer motor is |η| = 0.96 — the path is routed,
+        # as constraint theory requires (a revolute transmits every moment
+        # component except the one about its own axis, and the front axle's free
+        # axis is the wheel SPIN axis).
         #
-        # K_Mz_missing must satisfy two conditions:
-        #   1. Circular-motion stability: K_ctr_steer > v²·K_lean/(g·L).
-        #      At v=10: threshold ≈ 610 N·m/rad.  (easily met at 2000.)
-        #   2. Steer large-angle suppression: at large steer angles from a roll
-        #      perturbation, PyChrono constraint forces (trail, centripetal on fork,
-        #      prismatic reactions) create a net leftward steer torque that grows
-        #      with steer magnitude.  K_Mz_missing must be large enough that
-        #      K_ctr_steer >> those external torques so the steer is re-centered
-        #      before a circular-turn drift lock-in occurs.  Values < 1000 allow
-        #      steer drift to ~14° at v=10 despite positive restoring tau_steer.
-        #      2000 N·m/rad (circular stability ratio = 0.28 at v=10) keeps steer
-        #      within ~1° and allows underdamped roll oscillation at both speeds,
-        #      satisfying G6 (rev_10 > rev_5).
-        K_Mz_missing = 2000.0             # N·m/rad  (constant, constraint compensation)
+        # The real defect was a sign inversion in the front-tyre slip kinematics
+        # (see Motorcycle.steer_kin_sign).  The 2000 N·m/rad spring was simply
+        # stiff enough to overpower a tyre force pointing the wrong way.  With
+        # the sign corrected the compensation is unnecessary: peak steer after a
+        # 5° roll perturbation is 1.43°/1.36°/0.96° at v = 5/6/10 m/s with
+        # K_Mz_missing = 0, against 73.7°/66.3°/54.9° before the fix.
+        #
+        # Default is therefore 0.0.  Non-zero values are retained only so the
+        # probes in validation/probes can reproduce the pre-fix behaviour.
+        K_Mz_missing = self.K_Mz_missing  # N·m/rad  (0 = no compensation)
         K_ctr_steer  = K_ctr_phys + K_Mz_missing
 
         # ── Centripetal roll coupling (MAIN MISSING TERM) ─────────────────────
@@ -129,7 +154,8 @@ class WhippleStabilityModel:
         #   v=5:  K_roll_total ≈ 4312 N·m/rad   (K_net = 3237, ω_weave ≈ 7.1 rad/s)
         #   v=10: K_roll_total ≈ 9837 N·m/rad   (K_net = 8762, ω_weave ≈ 11.6 rad/s)
         # ω_weave ∝ v  →  correct Sharp 1971 speed scaling.
-        K_centripetal_eff = 2.5 * K_centripetal * K_lean / max(K_ctr_phys, 1.0)
+        K_centripetal_eff = (self.centripetal_factor * K_centripetal
+                             * K_lean / max(K_ctr_phys, 1.0))
         K_roll_total = K_rider + K_centripetal_eff
 
         # Constant roll damping — NOT velocity-scaled.
@@ -137,7 +163,7 @@ class WhippleStabilityModel:
         # PyChrono's gyroscopic effects (SetUseGyroTorque) also scale with speed.
         # Using a fixed 200 N·m·s/rad gives ζ≈0.24 at v=5 and ζ≈0.16 at v=10,
         # preserving underdamped oscillation at both speeds for G5/G6.
-        C_roll = 200.0   # N·m·s/rad  (constant)
+        C_roll = self.C_roll   # N·m·s/rad  (constant)
 
         # ── Steer torque supplement ───────────────────────────────────────────
         # K_ctr_steer (not K_ctr_phys) used here: includes the missing Mz routing

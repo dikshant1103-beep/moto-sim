@@ -1,0 +1,150 @@
+{
+  "natural_coupling": [
+    {
+      "v": 5.0,
+      "steer_cmd_deg": 3.0,
+      "steer_true_deg": 0.07663210564455601,
+      "roll_deg": -8.36529822654224,
+      "yaw_rate_dps": 0.30691607944170196,
+      "M_natural_Nm": -58.87185396838901,
+      "M_full_analytical_Nm": 2.4441245996557086,
+      "fraction_of_full": -24.08709194968292
+    },
+    {
+      "v": 5.0,
+      "steer_cmd_deg": -3.0,
+      "steer_true_deg": -0.07664855278323036,
+      "roll_deg": 8.365215804206757,
+      "yaw_rate_dps": -0.3070175911387105,
+      "M_natural_Nm": 58.87127803810747,
+      "M_full_analytical_Nm": -2.4446491687238825,
+      "fraction_of_full": -24.08168779033375
+    },
+    {
+      "v": 10.0,
+      "steer_cmd_deg": 3.0,
+      "steer_true_deg": 0.030515299443471186,
+      "roll_deg": -11.892653048072852,
+      "yaw_rate_dps": 0.4024259942397523,
+      "M_natural_Nm": -83.392326374347,
+      "M_full_analytical_Nm": 3.893053028822678,
+      "fraction_of_full": -21.420804123895063
+    },
+    {
+      "v": 10.0,
+      "steer_cmd_deg": -3.0,
+      "steer_true_deg": -0.030540086919771028,
+      "roll_deg": 11.892478280624749,
+      "yaw_rate_dps": -0.40235149149341715,
+      "M_natural_Nm": 83.39111853948143,
+      "M_full_analytical_Nm": -3.896215342557449,
+      "fraction_of_full": -21.40310819800429
+    },
+    {
+      "v": 15.0,
+      "steer_cmd_deg": 3.0,
+      "steer_true_deg": -0.004513361593205625,
+      "roll_deg": -16.707865127609622,
+      "yaw_rate_dps": 0.5194177224346446,
+      "M_natural_Nm": -116.33723133203827,
+      "M_full_analytical_Nm": -1.2955534959672568,
+      "fraction_of_full": 89.79731959673437
+    },
+    {
+      "v": 15.0,
+      "steer_cmd_deg": -3.0,
+      "steer_true_deg": 0.004517103660699903,
+      "roll_deg": 16.707953756536256,
+      "yaw_rate_dps": -0.5193242207851704,
+      "M_natural_Nm": 116.33783086471512,
+      "M_full_analytical_Nm": 1.2966276506774879,
+      "fraction_of_full": 89.72339191126196
+    }
+  ],
+  "balance": [
+    {
+      "v": 5.0,
+      "centripetal_factor": 0.0,
+      "upright": true,
+      "max_abs_roll_deg": 12.721412940136442,
+      "final_abs_roll_deg": 0.38557629458365833
+    },
+    {
+      "v": 5.0,
+      "centripetal_factor": 0.5,
+      "upright": true,
+      "max_abs_roll_deg": 18.56433310710614,
+      "final_abs_roll_deg": 0.28430727400129047
+    },
+    {
+      "v": 5.0,
+      "centripetal_factor": 1.0,
+      "upright": true,
+      "max_abs_roll_deg": 5.000000000000001,
+      "final_abs_roll_deg": 0.03223541488527971
+    },
+    {
+      "v": 5.0,
+      "centripetal_factor": 2.5,
+      "upright": true,
+      "max_abs_roll_deg": 5.000000000000001,
+      "final_abs_roll_deg": 0.07468885378226528
+    },
+    {
+      "v": 10.0,
+      "centripetal_factor": 0.0,
+      "upright": true,
+      "max_abs_roll_deg": 5.000000000000001,
+      "final_abs_roll_deg": 0.43882643822506145
+    },
+    {
+      "v": 10.0,
+      "centripetal_factor": 0.5,
+      "upright": true,
+      "max_abs_roll_deg": 6.232711660437499,
+      "final_abs_roll_deg": 0.0001421421931665046
+    },
+    {
+      "v": 10.0,
+      "centripetal_factor": 1.0,
+      "upright": true,
+      "max_abs_roll_deg": 5.000000000000001,
+      "final_abs_roll_deg": 2.1625901173562142e-05
+    },
+    {
+      "v": 10.0,
+      "centripetal_factor": 2.5,
+      "upright": true,
+      "max_abs_roll_deg": 5.000000000000001,
+      "final_abs_roll_deg": 8.451898436753614e-06
+    },
+    {
+      "v": 20.0,
+      "centripetal_factor": 0.0,
+      "upright": true,
+      "max_abs_roll_deg": 5.000000000000001,
+      "final_abs_roll_deg": 0.5481279088659465
+    },
+    {
+      "v": 20.0,
+      "centripetal_factor": 0.5,
+      "upright": true,
+      "max_abs_roll_deg": 5.000000000000001,
+      "final_abs_roll_deg": 3.264033114848031e-05
+    },
+    {
+      "v": 20.0,
+      "centripetal_factor": 1.0,
+      "upright": true,
+      "max_abs_roll_deg": 5.000000000000001,
+      "final_abs_roll_deg": 9.495877508977157e-06
+    },
+    {
+      "v": 20.0,
+      "centripetal_factor": 2.5,
+      "upright": true,
+      "max_abs_roll_deg": 5.000000000000001,
+      "final_abs_roll_deg": 1.4430167416049887e-06
+    }
+  ]
+}
