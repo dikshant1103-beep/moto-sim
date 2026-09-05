@@ -1,0 +1,111 @@
+{
+  "tau_Nm": 2.0,
+  "apply_s": 0.5,
+  "v": 10.0,
+  "rows": [
+    {
+      "kinematics": "pre-fix",
+      "steer_kin_sign": 1.0,
+      "K_Mz_missing": 2000.0,
+      "K_yaw_damp": 2000.0,
+      "countersteer": "no response",
+      "steer_early_deg": 0.07315287075853588,
+      "steer_at_gate_deg": 0.0692530243743099,
+      "roll_at_gate_deg": -0.016947861411686166,
+      "yaw_rate_at_gate_dps": -0.16783940971647418,
+      "yaw_rate_final_dps": -2.445751327903046e-06,
+      "roll_final_deg": -3.1048845599399784e-06
+    },
+    {
+      "kinematics": "pre-fix",
+      "steer_kin_sign": 1.0,
+      "K_Mz_missing": 2000.0,
+      "K_yaw_damp": 0.0,
+      "countersteer": "no response",
+      "steer_early_deg": 0.07318726514046661,
+      "steer_at_gate_deg": 0.07644999867578321,
+      "roll_at_gate_deg": -0.06412953105464507,
+      "yaw_rate_at_gate_dps": -0.5257861698531685,
+      "yaw_rate_final_dps": 6.52751253214442e-05,
+      "roll_final_deg": 2.510626568768383e-05
+    },
+    {
+      "kinematics": "pre-fix",
+      "steer_kin_sign": 1.0,
+      "K_Mz_missing": 0.0,
+      "K_yaw_damp": 2000.0,
+      "countersteer": "no (turns as steered)",
+      "steer_early_deg": 0.25586145079080175,
+      "steer_at_gate_deg": 23.9099690241782,
+      "roll_at_gate_deg": -1.3655639019020154,
+      "yaw_rate_at_gate_dps": -15.694277499432856,
+      "yaw_rate_final_dps": NaN,
+      "roll_final_deg": NaN
+    },
+    {
+      "kinematics": "pre-fix",
+      "steer_kin_sign": 1.0,
+      "K_Mz_missing": 0.0,
+      "K_yaw_damp": 0.0,
+      "countersteer": "no (turns as steered)",
+      "steer_early_deg": 0.2563678793803091,
+      "steer_at_gate_deg": 28.91910233549178,
+      "roll_at_gate_deg": -4.423052480433632,
+      "yaw_rate_at_gate_dps": -47.56194914668551,
+      "yaw_rate_final_dps": NaN,
+      "roll_final_deg": NaN
+    },
+    {
+      "kinematics": "fixed",
+      "steer_kin_sign": -1.0,
+      "K_Mz_missing": 2000.0,
+      "K_yaw_damp": 2000.0,
+      "countersteer": "no response",
+      "steer_early_deg": 0.03468422274089114,
+      "steer_at_gate_deg": 0.0363896002828588,
+      "roll_at_gate_deg": 0.010306973430876248,
+      "yaw_rate_at_gate_dps": 0.08852645322749209,
+      "yaw_rate_final_dps": -5.726676773351613e-07,
+      "roll_final_deg": 4.648230972899432e-06
+    },
+    {
+      "kinematics": "fixed",
+      "steer_kin_sign": -1.0,
+      "K_Mz_missing": 2000.0,
+      "K_yaw_damp": 0.0,
+      "countersteer": "no response",
+      "steer_early_deg": 0.03436006509850727,
+      "steer_at_gate_deg": 0.03516940737277269,
+      "roll_at_gate_deg": 0.028118751469744675,
+      "yaw_rate_at_gate_dps": 0.23491148810149545,
+      "yaw_rate_final_dps": -5.841727934628971e-05,
+      "roll_final_deg": -1.734766084439095e-06
+    },
+    {
+      "kinematics": "fixed",
+      "steer_kin_sign": -1.0,
+      "K_Mz_missing": 0.0,
+      "K_yaw_damp": 2000.0,
+      "countersteer": "no response",
+      "steer_early_deg": 0.15114098152057057,
+      "steer_at_gate_deg": 0.11774174263600569,
+      "roll_at_gate_deg": 0.03514803191656957,
+      "yaw_rate_at_gate_dps": 0.2884753880114253,
+      "yaw_rate_final_dps": 1.844719374666648e-05,
+      "roll_final_deg": 3.7717523584449174e-06
+    },
+    {
+      "kinematics": "fixed",
+      "steer_kin_sign": -1.0,
+      "K_Mz_missing": 0.0,
+      "K_yaw_damp": 0.0,
+      "countersteer": "no response",
+      "steer_early_deg": 0.15063166918362242,
+      "steer_at_gate_deg": 0.10605503104219799,
+      "roll_at_gate_deg": 0.08216694928841484,
+      "yaw_rate_at_gate_dps": 0.6966923322788761,
+      "yaw_rate_final_dps": 4.943147264273359e-05,
+      "roll_final_deg": 1.186839627276987e-06
+    }
+  ]
+}
